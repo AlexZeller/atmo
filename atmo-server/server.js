@@ -8,8 +8,8 @@ const port = 443
 app.use(express.static(path.join(__dirname, '../atmo-ui/dist')));
 
 const httpsOptions = {
-    key: fs.readFileSync('certificates/atmo.local.key'),
-    cert: fs.readFileSync('certificates/atmo.local.crt')
+    key: fs.readFileSync(path.join(__dirname, 'certificates/atmo.local.key')),
+    cert: fs.readFileSync(path.join(__dirname, 'certificates/atmo.local.crt'))
 }
 const server = https.createServer(httpsOptions, app)
     .listen(port, () => {
