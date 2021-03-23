@@ -1,9 +1,9 @@
-FROM node:14 AS ui-build
+FROM node:14-alpine AS ui-build
 WORKDIR /usr/src/app
 COPY atmo-ui/ ./atmo-ui/
 RUN cd atmo-ui && npm install && npm run build
 
-FROM node:14 AS server-build
+FROM node:14-alpine AS server-build
 WORKDIR /root/
 COPY --from=ui-build /usr/src/app/atmo-ui/dist ./atmo-ui/dist
 COPY atmo-server/package*.json ./atmo-server/
