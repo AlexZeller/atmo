@@ -8,8 +8,8 @@ WORKDIR /root/
 COPY --from=ui-build /usr/src/app/atmo-ui/dist ./atmo-ui/dist
 COPY atmo-server/package*.json ./atmo-server/
 RUN cd atmo-server && npm install
-COPY atmo-server/server.js ./stmo-server/
+COPY atmo-server/server.js ./atmo-server/
 
 EXPOSE 443
 
-CMD ["node", "./stmo-server/server.js"]
+CMD ["node", "./atmo-server/server.js"]
