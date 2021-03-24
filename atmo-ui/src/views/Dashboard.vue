@@ -35,6 +35,26 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-row v-if="loading">
+      <v-col>
+        <div class="text-center">
+          <v-progress-circular
+            indeterminate
+            color="primary"
+          ></v-progress-circular>
+        </div>
+      </v-col>
+    </v-row>
+    <v-row v-if="failedConnection">
+      <v-col>
+        <div class="text-center">
+          <v-icon large> mdi-wifi-strength-alert-outline </v-icon>
+        </div>
+        <div class="text-center caption">
+          Es konnte keine Verbindung zur API hergestellt werden.
+        </div>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -46,6 +66,8 @@ export default {
   name: "Dashboard",
   data: () => {
     return {
+      loading: true,
+      failedConnection: false,
       Data: [],
       sensors: [],
     };
@@ -53,10 +75,15 @@ export default {
   mounted() {
     axios
       .get(process.env.VUE_APP_ROOT_API + "/settings")
-      .then((response) => this.getSensorData(response.data));
+      .then((response) => this.getSensorData(response.data))
+      .catch(() => {
+        this.loading = false;
+        this.failedConnection = true;
+      });
   },
   methods: {
     getSensorData: function getSensorData(data) {
+      this.loading = false;
       this.sensors = data.sensors;
       let promises = [];
       data.sensors.forEach((sensor) => {

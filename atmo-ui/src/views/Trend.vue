@@ -35,7 +35,7 @@
         </v-container>
       </v-tab-item>
     </v-tabs>
-    <v-row class="justify-center pt-4">
+    <v-row v-if="!failedConnection & !loading" class="justify-center pt-4">
       <v-btn-toggle
         v-model="hours"
         v-on:change="reloadTempChart"
@@ -48,6 +48,26 @@
         <v-btn small value="24"> 24 </v-btn>
         <v-btn small value="168"> 7T </v-btn>
       </v-btn-toggle>
+    </v-row>
+    <v-row v-if="loading">
+      <v-col>
+        <div class="text-center">
+          <v-progress-circular
+            indeterminate
+            color="primary"
+          ></v-progress-circular>
+        </div>
+      </v-col>
+    </v-row>
+    <v-row v-if="failedConnection">
+      <v-col>
+        <div class="text-center">
+          <v-icon large> mdi-wifi-strength-alert-outline </v-icon>
+        </div>
+        <div class="text-center caption">
+          Es konnte keine Verbindung zur API hergestellt werden.
+        </div>
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -63,6 +83,8 @@ export default {
   components: { TemperatureTrend, HumidityTrend },
   data() {
     return {
+      loading: true,
+      failedConnection: false,
       activeTab: null,
       Data: "",
       room: parseInt(this.$route.params.initialRoom),
@@ -74,7 +96,14 @@ export default {
     this.getData(this.room);
     axios
       .get(process.env.VUE_APP_ROOT_API + "/settings")
-      .then((response) => (this.rooms = response.data.sensors));
+      .then((response) => {
+        this.rooms = response.data.sensors;
+        this.loading = false;
+      })
+      .catch(() => {
+        this.loading = false;
+        this.failedConnection = true;
+      });
   },
   methods: {
     getData: function getSensorData(room) {

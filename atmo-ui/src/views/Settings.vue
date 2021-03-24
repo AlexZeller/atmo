@@ -25,6 +25,7 @@
       </v-col>
     </v-row>
     <v-data-table
+      v-if="!failedConnection & !loading"
       :headers="headers"
       :items="sensors"
       :hide-default-footer="true"
@@ -63,7 +64,7 @@
           </template>
         </v-edit-dialog> </template
     ></v-data-table>
-    <v-row>
+    <v-row v-if="!failedConnection & !loading">
       <v-col class="d-flex justify-end">
         <v-btn
           class="ma-2"
@@ -99,6 +100,26 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-row v-if="loading">
+      <v-col>
+        <div class="text-center">
+          <v-progress-circular
+            indeterminate
+            color="primary"
+          ></v-progress-circular>
+        </div>
+      </v-col>
+    </v-row>
+    <v-row v-if="failedConnection">
+      <v-col>
+        <div class="text-center">
+          <v-icon large> mdi-wifi-strength-alert-outline </v-icon>
+        </div>
+        <div class="text-center caption">
+          Es konnte keine Verbindung zur API hergestellt werden.
+        </div>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -110,6 +131,8 @@ export default {
   name: "Settings",
   data: () => {
     return {
+      loading: true,
+      failedConnection: false,
       max15chars: (v) => v.length <= 15 || "Input too long!",
       headers: [
         {
@@ -129,13 +152,20 @@ export default {
     };
   },
   mounted() {
-    axios.get(process.env.VUE_APP_ROOT_API + "/settings").then((response) => {
-      response.data.sensors.forEach((sensor) => {
-        let arr = sensor.icon.split("-");
-        sensor.icon = arr[1];
+    axios
+      .get(process.env.VUE_APP_ROOT_API + "/settings")
+      .then((response) => {
+        this.loading = false;
+        response.data.sensors.forEach((sensor) => {
+          let arr = sensor.icon.split("-");
+          sensor.icon = arr[1];
+        });
+        this.sensors = response.data.sensors;
+      })
+      .catch(() => {
+        this.loading = false;
+        this.failedConnection = true;
       });
-      this.sensors = response.data.sensors;
-    });
   },
   methods: {
     constructJSON() {
