@@ -180,9 +180,16 @@ export default {
       return quality;
     },
     formatTime: function formatTime(Timestring) {
-      let timestamp = Date.parse(Timestring);
+      let Timestring_cleaned = Timestring.replace(/-/g, "/");
+      let timestamp = Date.parse(Timestring_cleaned);
       let dateObject = new Date(timestamp);
-      return dateObject.toLocaleString("de-DE");
+      return dateObject.toLocaleString("de-DE", {
+        year: "2-digit",
+        month: "numeric",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
     },
   },
 };
