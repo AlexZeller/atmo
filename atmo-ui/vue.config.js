@@ -6,7 +6,7 @@ module.exports = {
     name: 'atmo',
     themeColor: '#448AFF',
     manifestOptions: {
-      start_url: '/dashboard'
+      start_url: '/#/dashboard'
     },
     appleMobileWebAppCapable: true,
     iconPaths: {
