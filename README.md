@@ -71,14 +71,26 @@ services:
         - TZ=Europe/Berlin
     atmo-api:
       container_name: atmo-api
-      image: 192.168.0.197:5000/atmo-api:0.0.2
+      image: alexanderzeller/atmo-api:latest
       restart: always
       ports:
-        - 8090:8090
+        - 8443:8443
+      environment:
+        - TZ=Europe/Berlin
       volumes:
-        - /etc/timezone:/etc/timezone:ro
         - ./atmo-api/settings.json:/usr/src/app/settings.json
         - ./atmo-api/db.sqlite:/usr/src/app/db.sqlite
+        - ./certificates:/usr/src/app/certificates
+    atmo:
+      container_name: atmo
+      image: alexanderzeller/atmo:latest
+      restart: always
+      ports:
+        - 443:443
+      volumes:
+        - ./certificates:/usr/src/app/atmo-server/certificates 
+
+
 
 ``` 
 
