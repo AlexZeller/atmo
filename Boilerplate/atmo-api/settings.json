@@ -1,0 +1,14 @@
+{
+  "sensors": [
+    {
+      "id": 1,
+      "displayName": "Schlafzimmer",
+      "icon": "mdi-bed"
+    },
+    {
+      "id": 2,
+      "displayName": "Badezimmer",
+      "icon": "mdi-shower"
+    }
+  ]
+}
