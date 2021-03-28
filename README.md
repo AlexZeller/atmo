@@ -8,7 +8,20 @@
 
 atmo is a selfhosted temperature and humidity monitoring system for you home. It uses standard ZigBee sensors but without the need for a commercial ZigBee hub so you can be sure where you data goes. The concept is simple: The payload of the sensors is written to a database and a REST API is implemented to serve the data via a Frontend in you local network. 
 
-This project consists of two repositories. the [atmo](https://github.com/AlexZeller/atmo) repository and the [atmo-API](https://github.com/AlexZeller/atmo-API) repository.
+This project consists of two repositories. The [atmo](https://github.com/AlexZeller/atmo) repository and the [atmo-API](https://github.com/AlexZeller/atmo-API) repository.
+
+## Screenshots
+
+Dashboard             |  Menu 
+:-------------------------:|:-------------------------:
+![](https://user-images.githubusercontent.com/34438645/112764546-56c83980-9009-11eb-88da-9cd1bb822609.PNG)  |  ![](https://user-images.githubusercontent.com/34438645/112764540-53cd4900-9009-11eb-9690-af4bf9b7dab7.PNG) 
+
+Sensor Details            |  Timeseries |  Settings
+:-------------------------:|:-------------------------:|:-------------------------:
+![](https://user-images.githubusercontent.com/34438645/112764542-562fa300-9009-11eb-805a-ba6cb225921b.PNG)  |  ![](https://user-images.githubusercontent.com/34438645/112764544-56c83980-9009-11eb-869d-44a73f080b72.PNG) |  ![](https://user-images.githubusercontent.com/34438645/112764541-54fe7600-9009-11eb-9ce7-13f7dc42f5a2.PNG)
+
+
+
 
 ## Motivation
 
@@ -29,7 +42,9 @@ First I would recommend checking out the awesome [zigbee2mqtt](https://github.co
 
 ## Installing
 
-I used docker and docker compose so installation is straightforward. If you use a Raspberry Pi Zero you can use my docker images. If you use any other Raspberry Pi you have to build them yourself, since the Pi Zero runs on ARM/v6 for which my docker images are built.
+I used docker and docker compose so installation is straightforward. If you use a Raspberry Pi you can use my docker images (ARM/v6 images also work on ARM/v7 etc.). If you use any other architecture you will have to built them yourself.
+
+In the repository there is a folder called Boilerplate which already has the necessary file/folder structure for the docker-compose example, so in case you run it on a raspberry you only have to edit the config files.
 
 #### The hostname
 
@@ -38,6 +53,31 @@ I changed the hostname of my pi to atmo so it is accessible in my network at atm
 #### The certificates
 
 First you have to generate a certificate for atmo.local (or you chosen hostname) according to [this](https://deliciousbrains.com/ssl-certificate-authority-for-local-https-development/) article. Create a folder on you pi named *certificates* and paste the atmo.local.crt and atmo.local.key files in there. 
+
+#### The atmo-API settings.json
+
+When adding sensors to you ZigBee network you can give them a "friendly" name. This gets utilized in the settings of atmo where the friendly name corresponds to the id in the settings.json. It is important that you add the correct number of sensors to the settings.json and that the id corresponds to the friendly name. When the atmo-API is started it listens to each sensor id and writes the broadcasted values to the datbase. The *displayName* and *icon* can be edited through the Frontend and declare the name that gets displayed for the sensor and the corresponding icon. All icons from [materialdesignicons](https://materialdesignicons.com/) can be used.
+
+Sample settings.json for two sensors
+
+```json
+{
+  "sensors": [
+    {
+      "id": 1,
+      "displayName": "Wohnzimmer",
+      "icon": "mdi-sofa"
+    },
+    {
+      "id": 2,
+      "displayName": "Badezimmer",
+      "icon": "mdi-shower"
+    }
+  ]
+}
+```
+
+### docker-compose
 
 Here´s an example for a docker-compose file:
 
