@@ -1,0 +1,49 @@
+version: '3'
+services:
+    mosquitto:
+      container_name: mosquitto
+      image: arm32v6/eclipse-mosquitto
+      restart: always
+      ports:
+        - 1883:1883
+        - 9001:9001
+      volumes:
+        - ./mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+        - ./mosquitto/log:/mosquitto/log
+        - ./mosquitto/data:/mosquitto/data
+    zigbee2mqtt:
+      container_name: zigbee2mqtt
+      image: koenkk/zigbee2mqtt
+      ports:
+        - 8080:8080
+      volumes:
+        - ./zigbee2mqtt/data:/app/data
+        - /run/udev:/run/udev:ro
+      devices:
+        - /dev/ttyACM0:/dev/ttyACM0
+      restart: always
+      privileged: true
+      environment:
+        - TZ=Europe/Berlin
+    atmo-api:
+      container_name: atmo-api
+      image: alexanderzeller/atmo-api:latest
+      restart: always
+      ports:
+        - 8443:8443
+      environment:
+        - TZ=Europe/Berlin
+      volumes:
+        - ./atmo-api/settings.json:/usr/src/app/settings.json
+        - ./atmo-api/db.sqlite:/usr/src/app/db.sqlite
+        - ./certificates:/usr/src/app/certificates
+    atmo:
+      container_name: atmo
+      image: alexanderzeller/atmo:latest
+      restart: always
+      environment:
+        - TZ=Europe/Berlin
+      ports:
+        - 443:443
+      volumes:
+        - ./certificates:/usr/src/app/atmo-server/certificates
