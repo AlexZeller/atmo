@@ -10,7 +10,11 @@ atmo is a selfhosted temperature and humidity monitoring system for you home. It
 
 This project consists of two repositories. The [atmo](https://github.com/AlexZeller/atmo) repository and the [atmo-API](https://github.com/AlexZeller/atmo-API) repository.
 
-## Screenshots
+## Images
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/34438645/112791829-97a06c80-9062-11eb-920e-44afe9d27cec.JPG" alt="Size Limit CLI" width="400">
+</p>
+
 
 Dashboard             |  Menu 
 :-------------------------:|:-------------------------:
@@ -19,8 +23,6 @@ Dashboard             |  Menu
 Sensor Details            |  Timeseries |  Settings
 :-------------------------:|:-------------------------:|:-------------------------:
 ![](https://user-images.githubusercontent.com/34438645/112764542-562fa300-9009-11eb-805a-ba6cb225921b.PNG)  |  ![](https://user-images.githubusercontent.com/34438645/112764544-56c83980-9009-11eb-869d-44a73f080b72.PNG) |  ![](https://user-images.githubusercontent.com/34438645/112764541-54fe7600-9009-11eb-9ce7-13f7dc42f5a2.PNG)
-
-
 
 
 ## Motivation
