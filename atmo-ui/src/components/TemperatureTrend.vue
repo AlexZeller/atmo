@@ -5,11 +5,11 @@
 </template>
 
 <script>
-import axios from 'axios';
-import LineChart from '../components/LineChart.vue';
+import axios from "axios";
+import LineChart from "../components/LineChart.vue";
 
 export default {
-  name: 'TemperatureTrend',
+  name: "TemperatureTrend",
   components: { LineChart },
   data: () => ({
     loaded: false,
@@ -19,15 +19,15 @@ export default {
       scales: {
         xAxes: [
           {
-            type: 'time',
+            type: "time",
             ticks: {
               maxTicksLimit: 10,
             },
             time: {
               displayFormats: {
-                minute: 'HH:mm',
-                hour: 'HH:mm',
-                day: 'dd D.M',
+                minute: "HH:mm",
+                hour: "HH:mm",
+                day: "dd D.M",
               },
             },
           },
@@ -48,7 +48,7 @@ export default {
     this.loaded = false;
   },
   methods: {
-    getChartData: function(room, hours) {
+    getChartData: function (room, hours) {
       this.loaded = false;
       try {
         axios
@@ -63,16 +63,16 @@ export default {
         console.error(e);
       }
     },
-    formatChartData: function() {
+    formatChartData: function () {
       var dataObj = {
         labels: this.getTimesArray(this.TemperatureData),
         datasets: [
           {
-            label: 'Lufttemperatur in °C',
+            label: "Lufttemperatur in °C",
             fill: false,
             data: this.getTempArray(this.TemperatureData),
 
-            borderColor: ['rgba(3, 107, 252)'],
+            borderColor: ["rgba(255, 139, 128)"],
           },
         ],
       };
@@ -80,7 +80,7 @@ export default {
       return dataObj;
     },
 
-    getTempArray: function(TempData) {
+    getTempArray: function (TempData) {
       var TempsArray = [];
 
       TempData.forEach((element) => {
@@ -90,7 +90,7 @@ export default {
       return TempsArray;
     },
 
-    getTimesArray: function(TempData) {
+    getTimesArray: function (TempData) {
       var TimesArray = [];
 
       TempData.forEach((element) => {

@@ -22,12 +22,12 @@
               </v-col>
               <v-col cols="4" class="pa-0 pr-4">
                 <v-card-title class="pl-0 d-flex justify-space-between">
-                  <div>{{ sensor.Temperature }} °C</div>
+                  <div>{{ Math.round(sensor.Temperature * 10) / 10 }} °C</div>
                 </v-card-title>
               </v-col>
               <v-col cols="4" class="pa-0 pr-4">
                 <v-card-title class="pl-0 d-flex justify-space-between">
-                  <div>{{ sensor.Humidity }} %</div>
+                  <div>{{ Math.round(sensor.Humidity) }} % r.F.</div>
                 </v-card-title>
               </v-col>
             </v-row>

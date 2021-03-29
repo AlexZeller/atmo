@@ -72,7 +72,7 @@ export default {
             fill: false,
             data: this.getHumidArray(this.HumidityData),
 
-            borderColor: ["rgba(3, 252, 223)"],
+            borderColor: ["rgba(3, 107, 252)"],
           },
         ],
       };
